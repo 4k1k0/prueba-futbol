@@ -10,15 +10,18 @@ func calculo(jugadores []data.Jugador, niveles data.Niveles) {
 	totalGolesEquipo, metaGolesEquipo := calculaGoles(jugadores, niveles)
 	porcentajeGolesEquipo := porcentaje(totalGolesEquipo, metaGolesEquipo)
 	fmt.Println(porcentajeGolesEquipo)
+	var resultados []data.Resultado
 	for _, j := range jugadores {
 		nivel := asignaNivel(j, niveles)
 		porcentajeGolesIndividual := porcentaje(j.Goles, nivel)
-		fmt.Println(porcentajeGolesIndividual)
 		bono := calculaBono(j.Bono, porcentajeGolesEquipo, porcentajeGolesIndividual)
-		fmt.Printf("%.2f\n", bono)
 		sueldoTotal := calculaSueldoTotal(j.Sueldo, bono)
-		fmt.Println(sueldoTotal)
+		resultado := generarResultado(j, nivel, bono, sueldoTotal)
+		resultados = append(resultados, resultado)
 	}
+	msj, err := guardar(resultados)
+	checkError(err)
+	fmt.Println(msj)
 }
 
 func calculaGoles(jugadores []data.Jugador, n data.Niveles) (uint64, uint64) {
@@ -64,4 +67,17 @@ func calculaBono(valor uint64, porcentajeGolesEquipo, porcentajeGolesIndividual 
 
 func calculaSueldoTotal(sueldo uint64, bono float64) float64 {
 	return float64(sueldo) + bono
+}
+
+func generarResultado(j data.Jugador, golesMinimos uint64, bono, sueldoTotal float64) data.Resultado {
+	resultado := data.Resultado{
+		Nombre:         j.Nombre,
+		GolesMinimos:   golesMinimos,
+		Goles:          j.Goles,
+		Sueldo:         j.Sueldo,
+		Bono:           bono,
+		SueldoCompleto: sueldoTotal,
+		Equipo:         j.Equipo,
+	}
+	return resultado
 }

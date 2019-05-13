@@ -5,6 +5,7 @@ import (
 	"io/ioutil"
 	"log"
 	"os"
+	"strings"
 
 	data "./data"
 )
@@ -56,4 +57,35 @@ func generaNiveles(archivo string) data.Niveles {
 	err := json.Unmarshal([]byte(archivo), &nivel)
 	checkError(err)
 	return nivel
+}
+
+func nombreArchivo(archivo string) string {
+	arreglo := strings.Split(archivo, "/")
+	archivo = arreglo[len(arreglo)-1]
+	arreglo = strings.Split(archivo, ".")
+	archivo = arreglo[0]
+	return archivo
+}
+
+func guardar(resultados []data.Resultado) (string, error) {
+	data := "["
+	for i := 0; i < len(resultados); i++ {
+		out, err := json.MarshalIndent(resultados[i], "  ", "  ")
+		if err != nil {
+			log.Fatal(err)
+		}
+		cadena := string(out)
+		if i == len(resultados) || i == 0 {
+			data += "\n  " + cadena
+		} else {
+			data += ",\n  " + cadena
+		}
+	}
+	data += "\n]\n"
+	data2 := []byte(data)
+	nombre := nombreArchivo(*equipo)
+	archivo := "/tmp/" + nombre + ".log"
+	err := ioutil.WriteFile(archivo, data2, 0644)
+	msj := "Archivo generado en " + archivo
+	return msj, err
 }
