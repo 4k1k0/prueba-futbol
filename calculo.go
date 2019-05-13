@@ -9,7 +9,6 @@ import (
 func calculo(jugadores []data.Jugador, niveles data.Niveles) {
 	totalGolesEquipo, metaGolesEquipo := calculaGoles(jugadores, niveles)
 	porcentajeGolesEquipo := porcentaje(totalGolesEquipo, metaGolesEquipo)
-	fmt.Println(porcentajeGolesEquipo)
 	var resultados []data.Resultado
 	for _, j := range jugadores {
 		nivel := asignaNivel(j, niveles)
