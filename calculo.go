@@ -14,6 +14,10 @@ func calculo(jugadores []data.Jugador, niveles data.Niveles) {
 		nivel := asignaNivel(j, niveles)
 		porcentajeGolesIndividual := porcentaje(j.Goles, nivel)
 		fmt.Println(porcentajeGolesIndividual)
+		bono := calculaBono(j.Bono, porcentajeGolesEquipo, porcentajeGolesIndividual)
+		fmt.Printf("%.2f\n", bono)
+		sueldoTotal := calculaSueldoTotal(j.Sueldo, bono)
+		fmt.Println(sueldoTotal)
 	}
 }
 
@@ -56,4 +60,8 @@ func calculaBono(valor uint64, porcentajeGolesEquipo, porcentajeGolesIndividual 
 	porcentajeTotal := porcentajeGolesEquipo + porcentajeGolesIndividual
 	bono := (float64(valor) * porcentajeTotal) / 100.00
 	return bono
+}
+
+func calculaSueldoTotal(sueldo uint64, bono float64) float64 {
+	return float64(sueldo) + bono
 }
