@@ -1,10 +1,12 @@
 package main
 
 import (
-	"fmt"
+	"encoding/json"
 	"io/ioutil"
 	"log"
 	"os"
+
+	data "./data"
 )
 
 func abrir(equipo, niveles string) {
@@ -37,5 +39,21 @@ func generaCadena(archivo string) string {
 }
 
 func generaData(equipo, nivel string) {
-	fmt.Printf("%s...%s", equipo, nivel)
+	jugadores := generaJugadores(equipo)
+	niveles := generaNiveles(nivel)
+	calculo(jugadores, niveles)
+}
+
+func generaJugadores(archivo string) []data.Jugador {
+	var jugadores []data.Jugador
+	err := json.Unmarshal([]byte(archivo), &jugadores)
+	checkError(err)
+	return jugadores
+}
+
+func generaNiveles(archivo string) data.Niveles {
+	var nivel data.Niveles
+	err := json.Unmarshal([]byte(archivo), &nivel)
+	checkError(err)
+	return nivel
 }
