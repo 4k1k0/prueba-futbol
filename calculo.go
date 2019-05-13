@@ -43,3 +43,17 @@ func asignaNivel(jugador data.Jugador, niveles data.Niveles) uint64 {
 	}
 	return 0
 }
+
+func calculaBono(valor uint64, porcentajeGolesEquipo, porcentajeGolesIndividual float64) float64 {
+	if porcentajeGolesEquipo > 100.00 {
+		porcentajeGolesEquipo = 100.00
+	}
+	if porcentajeGolesIndividual > 100.00 {
+		porcentajeGolesIndividual = 100.00
+	}
+	porcentajeGolesEquipo = porcentajeGolesEquipo / 2
+	porcentajeGolesIndividual = porcentajeGolesIndividual / 2
+	porcentajeTotal := porcentajeGolesEquipo + porcentajeGolesIndividual
+	bono := (float64(valor) * porcentajeTotal) / 100.00
+	return bono
+}
