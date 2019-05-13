@@ -27,7 +27,7 @@ func calculaGoles(jugadores []data.Jugador, n data.Niveles) (uint64, uint64) {
 }
 
 func porcentaje(x, total uint64) float64 {
-	return float64((x * 100) / total)
+	return (float64(x) * 100.00) / float64(total)
 }
 
 func asignaNivel(jugador data.Jugador, niveles data.Niveles) uint64 {
