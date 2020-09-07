@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	data "./data"
+	"github.com/4k1k0/prueba-futbol/data"
 )
 
 func abrir(equipo, niveles string) {
